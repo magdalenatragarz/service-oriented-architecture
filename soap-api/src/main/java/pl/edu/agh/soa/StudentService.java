@@ -4,7 +4,9 @@ import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.ws.api.annotation.WebContext;
 
 import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.xml.bind.annotation.XmlElement;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -26,11 +28,11 @@ public class StudentService {
     private static List<Student> students = new ArrayList<>();
 
     @WebMethod(action="getStudents")
-    @WebResult(name="students")
+    @WebResult(name="isSuccess")
     @RolesAllowed("developer")
-    public boolean addStudent(@WebParam(name="name") String name,
-                              @WebParam(name="surname") String surname,
-                              @WebParam(name="stidentId") Integer studentId){
+    public boolean addStudent(@WebParam(name="name") @XmlElement(required=true)  String name ,
+                              @WebParam(name="surname") @XmlElement(required=true) String surname,
+                              @WebParam(name="stidentId") @XmlElement(required=true) Integer studentId){
 
         if (students.stream().anyMatch(s -> s.getStudentId()==studentId))
             return false;
@@ -39,15 +41,19 @@ public class StudentService {
         return true;
     }
 
-    @WebMethod
+    @WebMethod(action="getStudents")
+    @WebResult(name="students")
+    @PermitAll
     public List<Student> getStudents(){
         return students;
     }
 
-    @WebMethod
-    public boolean addSubject(@WebParam(name="studentId") Integer studentId,
-                              @WebParam(name="subjectName") String subjectName,
-                              @WebParam(name="ects") Integer ects){
+    @WebMethod(action="addSubject")
+    @WebResult(name="isSuccess")
+    @PermitAll
+    public boolean addSubject(@WebParam(name="studentId") @XmlElement(required=true) Integer studentId,
+                              @WebParam(name="subjectName") @XmlElement(required=true) String subjectName,
+                              @WebParam(name="ects") @XmlElement(required=true) Integer ects){
         if (students.stream().noneMatch(s -> s.getStudentId()==studentId))
             return false;
 
@@ -60,22 +66,28 @@ public class StudentService {
         return true;
     }
 
-    @WebMethod
-    public List<Student> filterByName(@WebParam(name="name") String name){
+    @WebMethod(action="filterByName")
+    @WebResult(name="students")
+    @PermitAll
+    public List<Student> filterByName(@WebParam(name="name") @XmlElement(required=true) String name){
         return students.stream()
                     .filter(s -> s.getName().equals(name))
                     .collect(Collectors.toList());
     }
 
-    @WebMethod
-    public List<Student> filterBySurname(@WebParam(name="surname") String surname){
+    @WebMethod(action="filterBySurname")
+    @WebResult(name="students")
+    @PermitAll
+    public List<Student> filterBySurname(@WebParam(name="surname") @XmlElement(required=true) String surname){
         return students.stream()
                 .filter(s -> s.getSurname().equals(surname))
                 .collect(Collectors.toList());
     }
 
-    @WebMethod
-    public Student findByid(@WebParam(name="studentId") Integer studentId){
+    @WebMethod(action="findById")
+    @WebResult(name="student")
+    @PermitAll
+    public Student findByid(@WebParam(name="studentId") @XmlElement(required=true) Integer studentId){
         return students.stream()
                 .filter(s -> s.getStudentId()==studentId)
                 .findFirst()
