@@ -4,12 +4,10 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 @WebService
@@ -38,16 +36,38 @@ public class StudentService {
     public boolean addSubject(@WebParam(name="studentId") Integer studentId,
                               @WebParam(name="subjectName") String subjectName,
                               @WebParam(name="ects") Integer ects){
-        try {
-            students.stream()
-                    .filter(s -> s.getStudentId() == studentId)
-                    .findFirst()
-                    .orElse(null)
-                    .addSubject(subjectName, ects);
-        }catch(NullPointerException e){
+        if (students.stream().noneMatch(s -> s.getStudentId()==studentId))
             return false;
-        }
+
+        students.stream()
+                .filter(s -> s.getStudentId() == studentId)
+                .findFirst()
+                .orElse(null)
+                .addSubject(subjectName, ects);
+
         return true;
+    }
+
+    @WebMethod
+    public List<Student> filterByName(String name){
+        return students.stream()
+                    .filter(s -> s.getName().equals(name))
+                    .collect(Collectors.toList());
+    }
+
+    @WebMethod
+    public List<Student> filterBySurname(String surname){
+        return students.stream()
+                .filter(s -> s.getSurname().equals(surname))
+                .collect(Collectors.toList());
+    }
+
+    @WebMethod
+    public Student findByid(Integer studentId){
+        return students.stream()
+                .filter(s -> s.getStudentId()==studentId)
+                .findFirst()
+                .orElse(null);
     }
 
 }

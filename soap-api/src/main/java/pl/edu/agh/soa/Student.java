@@ -5,12 +5,14 @@ import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlType
+@XmlType(name="student")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
     public String name;
     public String surname;
     public Integer studentId;
+    @XmlElementWrapper
+    @XmlElement(name="subject")
     public List<Subject> subjects;
 
 
