@@ -1,9 +1,16 @@
 package pl.edu.agh.soa;
 
+import org.jboss.annotation.security.SecurityDomain;
+import org.jboss.ws.api.annotation.WebContext;
+
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +18,16 @@ import java.util.stream.Collectors;
 
 @Stateless
 @WebService
+@DeclareRoles({"developer","admin"})
+@WebContext(authMethod="BASIC", transportGuarantee="NONE")
+@SecurityDomain("soap_lab1")
 public class StudentService {
 
     private static List<Student> students = new ArrayList<>();
 
-    @WebMethod
+    @WebMethod(action="getStudents")
+    @WebResult(name="students")
+    @RolesAllowed("developer")
     public boolean addStudent(@WebParam(name="name") String name,
                               @WebParam(name="surname") String surname,
                               @WebParam(name="stidentId") Integer studentId){
@@ -49,21 +61,21 @@ public class StudentService {
     }
 
     @WebMethod
-    public List<Student> filterByName(String name){
+    public List<Student> filterByName(@WebParam(name="name") String name){
         return students.stream()
                     .filter(s -> s.getName().equals(name))
                     .collect(Collectors.toList());
     }
 
     @WebMethod
-    public List<Student> filterBySurname(String surname){
+    public List<Student> filterBySurname(@WebParam(name="surname") String surname){
         return students.stream()
                 .filter(s -> s.getSurname().equals(surname))
                 .collect(Collectors.toList());
     }
 
     @WebMethod
-    public Student findByid(Integer studentId){
+    public Student findByid(@WebParam(name="studentId") Integer studentId){
         return students.stream()
                 .filter(s -> s.getStudentId()==studentId)
                 .findFirst()
