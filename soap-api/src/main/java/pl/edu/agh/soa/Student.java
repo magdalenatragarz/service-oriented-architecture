@@ -11,9 +11,11 @@ public class Student {
     public String name;
     public String surname;
     public Integer studentId;
+
     @XmlElementWrapper
     @XmlElement(name="subject")
     public List<Subject> subjects;
+    public String avatar;
 
 
     public Student(String name, String surname, int studentId) {
@@ -35,6 +37,10 @@ public class Student {
         return studentId;
     }
 
+    public String getAvatar(){
+        return avatar;
+    }                          
+
     public List<Subject> getSubjects() {
         return subjects;
     }
@@ -55,8 +61,12 @@ public class Student {
         this.subjects = subjects;
     }
 
-    public void addSubject(String subjectName, Integer ects){
-        subjects.add(new Subject(subjectName,ects));
+    public void addSubject(Subject subject){
+        subjects.add(subject);
+    }
+
+    public void setAvatar(String avatar){
+        this.avatar = avatar;
     }
 
 

@@ -6,12 +6,15 @@ import javax.xml.bind.annotation.*;
 @XmlType(name="subject")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Subject {
+
+    public Integer subjectId;
     public String name;
     public Integer ECTS;
 
-    public Subject(String name, Integer ECTS) {
+    public Subject(Integer subjectId, String name, Integer ECTS) {
         this.name = name;
         this.ECTS = ECTS;
+        this.subjectId = subjectId;
     }
 
     public String getName() {
@@ -22,6 +25,10 @@ public class Subject {
         return ECTS;
     }
 
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -29,4 +36,10 @@ public class Subject {
     public void setECTS(Integer ECTS) {
         this.ECTS = ECTS;
     }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
 }
+
