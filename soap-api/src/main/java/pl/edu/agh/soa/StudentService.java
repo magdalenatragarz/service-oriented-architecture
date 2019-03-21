@@ -1,35 +1,28 @@
 package pl.edu.agh.soa;
 
-import org.hibernate.validator.constraints.LuhnCheck;
-import org.jboss.annotation.ejb.Clustered;
 import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.ws.api.annotation.WebContext;
 
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Local;
-import javax.ejb.Stateful;
-import javax.xml.bind.annotation.XmlElement;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import org.apache.commons.io.*;
-
-
+import javax.xml.bind.annotation.XmlElement;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.Base64;
 
 @Stateless
 @WebService
-@DeclareRoles({"developer","admin"})
-@WebContext(authMethod="BASIC", transportGuarantee="NONE")
+@DeclareRoles({"developer", "admin"})
+@WebContext(authMethod = "BASIC", transportGuarantee = "NONE")
 @SecurityDomain("soap_lab1")
 public class StudentService {
 
@@ -37,13 +30,13 @@ public class StudentService {
     private static List<Subject> subjects = new ArrayList<>();
 
     @WebMethod
-    @WebResult(name="isSuccess")
+    @WebResult(name = "isSuccess")
     @RolesAllowed("developer")
-    public boolean addStudent(@WebParam(name="name") @XmlElement(required=true)  String name ,
-                              @WebParam(name="surname") @XmlElement(required=true) String surname,
-                              @WebParam(name="stidentId") @XmlElement(required=true) Integer studentId){
+    public boolean addStudent(@WebParam(name = "name") @XmlElement(required = true) String name,
+                              @WebParam(name = "surname") @XmlElement(required = true) String surname,
+                              @WebParam(name = "stidentId") @XmlElement(required = true) Integer studentId) {
 
-        if (students.stream().anyMatch(s -> s.getStudentId()==studentId))
+        if (students.stream().anyMatch(s -> s.getStudentId() == studentId))
             return false;
 
         students.add(new Student(name, surname, studentId));
@@ -51,34 +44,34 @@ public class StudentService {
     }
 
     @WebMethod
-    @WebResult(name="isSuccess")
+    @WebResult(name = "isSuccess")
     @RolesAllowed("developer")
-    public boolean removeStudent(@WebParam(name="studentId") @XmlElement(required = true) Integer studentId){
-        if (students.stream().noneMatch(s -> s.getStudentId()==studentId))
+    public boolean removeStudent(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
+        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
-        students.removeIf(s -> s.getStudentId()==studentId);
+        students.removeIf(s -> s.getStudentId() == studentId);
         return true;
     }
 
 
     @WebMethod
-    @WebResult(name="students")
+    @WebResult(name = "students")
     @PermitAll
-    public List<Student> getStudents(){
+    public List<Student> getStudents() {
         return students;
     }
 
     @WebMethod
-    @WebResult(name="isSuccess")
+    @WebResult(name = "isSuccess")
     @PermitAll
-    public boolean addSubject(@WebParam(name="studentId") @XmlElement(required=true) Integer studentId,
-                              @WebParam(name="subjectName") @XmlElement(required=true) String subjectName,
-                              @WebParam(name="ects") @XmlElement(required=true) Integer ects){
-        if (students.stream().noneMatch(s -> s.getStudentId()==studentId))
+    public boolean addSubject(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId,
+                              @WebParam(name = "subjectName") @XmlElement(required = true) String subjectName,
+                              @WebParam(name = "ects") @XmlElement(required = true) Integer ects) {
+        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
 
-        if(subjects.stream().noneMatch(s -> s.name.equals(subjectName) && s.ECTS.equals(ects)))
-            subjects.add(new Subject(subjects.size()+1, subjectName, ects));
+        if (subjects.stream().noneMatch(s -> s.name.equals(subjectName) && s.ECTS.equals(ects)))
+            subjects.add(new Subject(subjects.size() + 1, subjectName, ects));
 
         Subject subject = subjects.stream()
                 .filter(s -> s.name.equals(subjectName) && s.ECTS.equals(ects))
@@ -95,17 +88,17 @@ public class StudentService {
     }
 
     @WebMethod
-    @WebResult(name="subjects")
+    @WebResult(name = "subjects")
     @PermitAll
-    public List<Subject> getSubjects(){
+    public List<Subject> getSubjects() {
         return subjects;
     }
 
 
     @WebMethod
-    @WebResult(name="students")
+    @WebResult(name = "students")
     @PermitAll
-    public List<Student> filterBySubject(@WebParam(name="subjectId") @XmlElement(required = true) Integer subjectId){
+    public List<Student> filterBySubject(@WebParam(name = "subjectId") @XmlElement(required = true) Integer subjectId) {
         return students.stream()
                 .filter(s -> s.getSubjects().stream()
                         .anyMatch(sub -> sub.subjectId.equals(subjectId)))
@@ -113,50 +106,79 @@ public class StudentService {
     }
 
     @WebMethod
-    @WebResult(name="students")
+    @WebResult(name = "students")
     @PermitAll
-    public List<Student> filterByName(@WebParam(name="name") @XmlElement(required=true) String name){
+    public List<Student> filterByName(@WebParam(name = "name") @XmlElement(required = true) String name) {
         return students.stream()
-                    .filter(s -> s.getName().equals(name))
-                    .collect(Collectors.toList());
+                .filter(s -> s.getName().equals(name))
+                .collect(Collectors.toList());
     }
 
     @WebMethod
-    @WebResult(name="students")
+    @WebResult(name = "students")
     @PermitAll
-    public List<Student> filterBySurname(@WebParam(name="surname") @XmlElement(required=true) String surname){
+    public List<Student> filterBySurname(@WebParam(name = "surname") @XmlElement(required = true) String surname) {
         return students.stream()
                 .filter(s -> s.getSurname().equals(surname))
                 .collect(Collectors.toList());
     }
 
     @WebMethod
-    @WebResult(name="student")
+    @WebResult(name = "student")
     @PermitAll
-    public Student findByid(@WebParam(name="studentId") @XmlElement(required=true) Integer studentId){
+    public Student findByid(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
         return students.stream()
-                .filter(s -> s.getStudentId()==studentId)
+                .filter(s -> s.getStudentId() == studentId)
                 .findFirst()
                 .orElse(null);
     }
 
     @WebMethod
-    @WebResult(name="avatar")
+    @WebResult(name = "isSuccess")
     @PermitAll
-    public boolean uploadAvatar(@WebParam(name="path") @XmlElement(required=true) String path, @WebParam(name="studentId") Integer studentId){
-        try{
-            File file = new File(path);
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int)file.length()];
-            String encodedFile = new String(Base64.getEncoder().encode(bytes));
-            Optional<Student> student = students.stream()
-                    .filter(s -> s.getStudentId()==studentId)
-                    .findFirst();
-            student.ifPresent(s -> s.setAvatar(encodedFile));
-            return true;
-        } catch (IOException e){
+    public boolean uploadAvatar(@WebParam(name = "path") @XmlElement(required = true) String path, @WebParam(name = "studentId") Integer studentId) {
+        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
+            return false;
+
+        String base64Image = "";
+        File file = new File(path);
+        try (FileInputStream imageInFile = new FileInputStream(file)) {
+            byte[] imageData = new byte[(int) file.length()];
+            imageInFile.read(imageData);
+            base64Image = Base64.getEncoder().encodeToString(imageData);
+        } catch (Exception e) {
             return false;
         }
+
+        students.stream()
+                .filter(s -> s.getStudentId() == studentId)
+                .findFirst()
+                .orElse(null)
+                .setAvatar(base64Image);
+        return true;
     }
 
+
+    @WebMethod
+    @WebResult(name="destination-filepath")
+    @PermitAll
+    public String downloadAvatar(@WebParam(name="studentId") @XmlElement(required = true) Integer studentId){
+        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
+            return "Unknown studentId";
+
+        String base64Image = students.stream()
+                .filter(s -> s.getStudentId() == studentId)
+                .findFirst()
+                .orElse(null)
+                .getAvatar();
+
+        String destinationFilepath = "/home/magda/students/avatars/student" + studentId.toString() + ".jpg";
+        try (FileOutputStream imageOutFile = new FileOutputStream(destinationFilepath)) {
+            byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
+            imageOutFile.write(imageByteArray);
+        } catch (Exception e) {
+            return "Unable to save file";
+        }
+        return destinationFilepath;
+    }
 }

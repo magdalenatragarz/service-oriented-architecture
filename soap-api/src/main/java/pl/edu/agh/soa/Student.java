@@ -11,11 +11,10 @@ public class Student {
     public String name;
     public String surname;
     public Integer studentId;
-
+    public String avatar;
     @XmlElementWrapper
     @XmlElement(name="subject")
     public List<Subject> subjects;
-    public String avatar;
 
 
     public Student(String name, String surname, int studentId) {
