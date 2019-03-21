@@ -1,11 +1,10 @@
 package pl.edu.agh.soa;
 
-
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlType(name="student")
+@XmlType(name = "student")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
     public String name;
@@ -13,7 +12,7 @@ public class Student {
     public Integer studentId;
     public String avatar;
     @XmlElementWrapper
-    @XmlElement(name="subject")
+    @XmlElement(name = "subject")
     public List<Subject> subjects;
 
 
@@ -36,9 +35,9 @@ public class Student {
         return studentId;
     }
 
-    public String getAvatar(){
+    public String getAvatar() {
         return avatar;
-    }                          
+    }
 
     public List<Subject> getSubjects() {
         return subjects;
@@ -60,11 +59,11 @@ public class Student {
         this.subjects = subjects;
     }
 
-    public void addSubject(Subject subject){
+    public void addSubject(Subject subject) {
         subjects.add(subject);
     }
 
-    public void setAvatar(String avatar){
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

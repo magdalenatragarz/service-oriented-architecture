@@ -12,11 +12,12 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -160,9 +161,9 @@ public class StudentService {
 
 
     @WebMethod
-    @WebResult(name="destination-filepath")
+    @WebResult(name = "destination-filepath")
     @PermitAll
-    public String downloadAvatar(@WebParam(name="studentId") @XmlElement(required = true) Integer studentId){
+    public String downloadAvatar(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return "Unknown studentId";
 
