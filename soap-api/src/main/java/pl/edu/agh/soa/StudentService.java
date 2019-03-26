@@ -1,17 +1,21 @@
 package pl.edu.agh.soa;
 
+import org.jboss.annotation.ejb.Clustered;
 import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.ws.api.annotation.WebContext;
 
+import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.ws.WebServiceContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 @SecurityDomain("soap_lab1")
 public class StudentService {
 
+    private WebServiceContext wsContext;
     private static List<Student> students = new ArrayList<>();
     private static List<Subject> subjects = new ArrayList<>();
 

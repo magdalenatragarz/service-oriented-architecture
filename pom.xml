@@ -35,6 +35,7 @@
     <modules>
         <module>soap-api</module>
         <module>soap-web</module>
+	<module>soap-connector</module>
         <module>soap-ear</module>
     </modules>
 
@@ -74,6 +75,13 @@
             <dependency>
                 <groupId>pl.edu.agh.soa</groupId>
                 <artifactId>soap-api</artifactId>
+                <version>${project.version}</version>
+                <type>ejb</type>
+            </dependency>
+
+	    <dependency>
+                <groupId>pl.edu.agh.soa</groupId>
+                <artifactId>soap-connector</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>

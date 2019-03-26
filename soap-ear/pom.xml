@@ -52,6 +52,11 @@
             <artifactId>soap-api</artifactId>
             <type>ejb</type>
         </dependency>
+	<dependency>
+            <groupId>pl.edu.agh.soa</groupId>
+            <artifactId>soap-connector</artifactId>
+            <type>ejb</type>
+        </dependency>
     </dependencies>
 
     <build>
