@@ -10,6 +10,7 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -31,9 +32,10 @@ import java.util.stream.Collectors;
 @SecurityDomain("soap_lab1")
 public class StudentService {
 
-    private WebServiceContext wsContext;
-    private static List<Student> students = new ArrayList<>();
-    private static List<Subject> subjects = new ArrayList<>();
+    @Inject
+    StudentContainer studentContainer;
+    //private static List<Student> students = new ArrayList<>();
+    //private static List<Subject> subjects = new ArrayList<>();
 
     @WebMethod
     @WebResult(name = "isSuccess")
@@ -41,6 +43,8 @@ public class StudentService {
     public boolean addStudent(@WebParam(name = "name") @XmlElement(required = true) String name,
                               @WebParam(name = "surname") @XmlElement(required = true) String surname,
                               @WebParam(name = "stidentId") @XmlElement(required = true) Integer studentId) {
+
+        List<Student> students = studentContainer.getStudentsInstance();
 
         if (students.stream().anyMatch(s -> s.getStudentId() == studentId))
             return false;
@@ -53,6 +57,7 @@ public class StudentService {
     @WebResult(name = "isSuccess")
     @RolesAllowed("developer")
     public boolean removeStudent(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
+        List<Student> students = studentContainer.getStudentsInstance();
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
         students.removeIf(s -> s.getStudentId() == studentId);
@@ -64,7 +69,7 @@ public class StudentService {
     @WebResult(name = "students")
     @PermitAll
     public List<Student> getStudents() {
-        return students;
+        return studentContainer.getStudentsInstance();
     }
 
     @WebMethod
@@ -73,6 +78,10 @@ public class StudentService {
     public boolean addSubject(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId,
                               @WebParam(name = "subjectName") @XmlElement(required = true) String subjectName,
                               @WebParam(name = "ects") @XmlElement(required = true) Integer ects) {
+
+        List<Student> students = studentContainer.getStudentsInstance();
+        List<Subject> subjects = studentContainer.getSubjectsInstance();
+
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
 
@@ -97,7 +106,7 @@ public class StudentService {
     @WebResult(name = "subjects")
     @PermitAll
     public List<Subject> getSubjects() {
-        return subjects;
+        return studentContainer.getSubjectsInstance();
     }
 
 
@@ -105,6 +114,9 @@ public class StudentService {
     @WebResult(name = "students")
     @PermitAll
     public List<Student> filterBySubject(@WebParam(name = "subjectId") @XmlElement(required = true) Integer subjectId) {
+
+        List<Student> students = studentContainer.getStudentsInstance();
+
         return students.stream()
                 .filter(s -> s.getSubjects().stream()
                         .anyMatch(sub -> sub.subjectId.equals(subjectId)))
@@ -115,6 +127,7 @@ public class StudentService {
     @WebResult(name = "students")
     @PermitAll
     public List<Student> filterByName(@WebParam(name = "name") @XmlElement(required = true) String name) {
+        List<Student> students = studentContainer.getStudentsInstance();
         return students.stream()
                 .filter(s -> s.getName().equals(name))
                 .collect(Collectors.toList());
@@ -124,6 +137,7 @@ public class StudentService {
     @WebResult(name = "students")
     @PermitAll
     public List<Student> filterBySurname(@WebParam(name = "surname") @XmlElement(required = true) String surname) {
+        List<Student> students = studentContainer.getStudentsInstance();
         return students.stream()
                 .filter(s -> s.getSurname().equals(surname))
                 .collect(Collectors.toList());
@@ -133,6 +147,7 @@ public class StudentService {
     @WebResult(name = "student")
     @PermitAll
     public Student findByid(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
+        List<Student> students = studentContainer.getStudentsInstance();
         return students.stream()
                 .filter(s -> s.getStudentId() == studentId)
                 .findFirst()
@@ -143,6 +158,7 @@ public class StudentService {
     @WebResult(name = "isSuccess")
     @PermitAll
     public boolean uploadAvatar(@WebParam(name = "path") @XmlElement(required = true) String path, @WebParam(name = "studentId") Integer studentId) {
+        List<Student> students = studentContainer.getStudentsInstance();
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
 
@@ -169,6 +185,7 @@ public class StudentService {
     @WebResult(name = "destination-filepath")
     @PermitAll
     public String downloadAvatar(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
+        List<Student> students = studentContainer.getStudentsInstance();
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return "Unknown studentId";
 
