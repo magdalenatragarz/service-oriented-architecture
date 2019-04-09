@@ -204,4 +204,11 @@ public class StudentService {
         }
         return destinationFilepath;
     }
+
+    @WebMethod
+    @PermitAll
+    public void erase(){
+        studentContainer.getStudentsInstance().clear();
+        studentContainer.getSubjectsInstance().clear();
+    }
 }

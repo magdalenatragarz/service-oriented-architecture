@@ -30,6 +30,8 @@ public class ObjectFactory {
     private final static QName _AddSubjectResponse_QNAME = new QName("http://soa.agh.edu.pl/", "addSubjectResponse");
     private final static QName _DownloadAvatar_QNAME = new QName("http://soa.agh.edu.pl/", "downloadAvatar");
     private final static QName _DownloadAvatarResponse_QNAME = new QName("http://soa.agh.edu.pl/", "downloadAvatarResponse");
+    private final static QName _Erase_QNAME = new QName("http://soa.agh.edu.pl/", "erase");
+    private final static QName _EraseResponse_QNAME = new QName("http://soa.agh.edu.pl/", "eraseResponse");
     private final static QName _FilterByName_QNAME = new QName("http://soa.agh.edu.pl/", "filterByName");
     private final static QName _FilterByNameResponse_QNAME = new QName("http://soa.agh.edu.pl/", "filterByNameResponse");
     private final static QName _FilterBySubject_QNAME = new QName("http://soa.agh.edu.pl/", "filterBySubject");
@@ -108,6 +110,22 @@ public class ObjectFactory {
      */
     public DownloadAvatarResponse createDownloadAvatarResponse() {
         return new DownloadAvatarResponse();
+    }
+
+    /**
+     * Create an instance of {@link Erase }
+     * 
+     */
+    public Erase createErase() {
+        return new Erase();
+    }
+
+    /**
+     * Create an instance of {@link EraseResponse }
+     * 
+     */
+    public EraseResponse createEraseResponse() {
+        return new EraseResponse();
     }
 
     /**
@@ -330,6 +348,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://soa.agh.edu.pl/", name = "downloadAvatarResponse")
     public JAXBElement<DownloadAvatarResponse> createDownloadAvatarResponse(DownloadAvatarResponse value) {
         return new JAXBElement<DownloadAvatarResponse>(_DownloadAvatarResponse_QNAME, DownloadAvatarResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Erase }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Erase }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://soa.agh.edu.pl/", name = "erase")
+    public JAXBElement<Erase> createErase(Erase value) {
+        return new JAXBElement<Erase>(_Erase_QNAME, Erase.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EraseResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link EraseResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://soa.agh.edu.pl/", name = "eraseResponse")
+    public JAXBElement<EraseResponse> createEraseResponse(EraseResponse value) {
+        return new JAXBElement<EraseResponse>(_EraseResponse_QNAME, EraseResponse.class, null, value);
     }
 
     /**
