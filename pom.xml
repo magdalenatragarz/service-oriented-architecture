@@ -34,9 +34,10 @@
     </licenses>
     <modules>
         <module>soap-api</module>
-        <module>soap-web</module>
-	<module>soap-connector</module>
+        <module>rest-api</module>
+	    <module>soap-connector</module>
         <module>soap-ear</module>
+        <module>model</module>
     </modules>
 
     <properties>
@@ -79,7 +80,8 @@
                 <type>ejb</type>
             </dependency>
 
-	    <dependency>
+
+	    	<dependency>
                 <groupId>pl.edu.agh.soa</groupId>
                 <artifactId>soap-connector</artifactId>
                 <version>${project.version}</version>
@@ -90,7 +92,7 @@
                 ourselves in every module -->
             <dependency>
                 <groupId>pl.edu.agh.soa</groupId>
-                <artifactId>soap-web</artifactId>
+                <artifactId>rest-api</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>
@@ -119,6 +121,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs</artifactId>
+                <version>2.2.1.GA</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -25,8 +25,8 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>soap-api</artifactId>
-    <packaging>ejb</packaging>
+    <artifactId>model</artifactId>
+    <packaging>jar</packaging>
 
     <name>soap: EJB Module</name>
 
@@ -121,9 +121,9 @@
             <version>2.6</version>
         </dependency>
         <dependency>
-            <groupId>pl.edu.agh.soa</groupId>
-            <artifactId>model</artifactId>
-            <version>1.0</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.8</version>
             <scope>compile</scope>
         </dependency>
 

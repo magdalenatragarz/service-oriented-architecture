@@ -1,14 +1,11 @@
 package pl.edu.agh.soa;
 
-import org.jboss.annotation.ejb.Clustered;
 import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.ws.api.annotation.WebContext;
 
-import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
@@ -16,14 +13,13 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.ws.WebServiceContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Stateless
 @WebService
@@ -34,8 +30,6 @@ public class StudentService {
 
     @Inject
     StudentContainer studentContainer;
-    //private static List<Student> students = new ArrayList<>();
-    //private static List<Subject> subjects = new ArrayList<>();
 
     @WebMethod
     @WebResult(name = "isSuccess")
