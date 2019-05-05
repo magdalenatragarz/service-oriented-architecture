@@ -17,16 +17,16 @@ public class AvatarResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public Response uploadAvatar(@PathParam("id") Integer id, @Valid Avatar avatar) {
        if (studentContainer.uploadAvatar(id,avatar))
-           return Response.status(200).build();
-       return Response.status(400).build();
+           return Response.status(Response.Status.CREATED).build();
+       return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
 
     @GET
     @Path("/{id}")
     public Response downloadAvatar(@PathParam("id") Integer id) {
         if (studentContainer.downloadAvatar(id))
-            return Response.status(200).build();
-        return Response.status(400).build();
+            return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
 
 }

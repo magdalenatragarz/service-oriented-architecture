@@ -27,8 +27,8 @@ public class StudentResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addStudent(@Valid Student student) {
         if (studentContainer.addStudent(student))
-            return Response.status(200).build();
-        return Response.status(400).build();
+            return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CONFLICT).entity("studentId must be unique, student already exists").build();
     }
 
 
@@ -45,8 +45,8 @@ public class StudentResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateStudent(@PathParam("id") int id, @Valid Student updatedStudent) {
         if (studentContainer.updateStudent(id, updatedStudent))
-            return Response.status(200).build();
-        return Response.status(400).build();
+            return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
 
     @DELETE
@@ -54,8 +54,8 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeStudent(@PathParam("id") int id) {
         if (studentContainer.removeStudent(id))
-            return Response.status(200).build();
-        return Response.status(400).build();
+            return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
 
 }

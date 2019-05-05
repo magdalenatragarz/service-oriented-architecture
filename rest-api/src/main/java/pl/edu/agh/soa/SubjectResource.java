@@ -19,9 +19,9 @@ public class SubjectResource {
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addSubject(@PathParam("id") Integer id, @Valid Subject subject) {
-        if (!studentContainer.addSubject(id, subject))
-            return Response.status(400).build();
-        return Response.status(200).build();
+        if (studentContainer.addSubject(id, subject))
+            return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
 
 }
