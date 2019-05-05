@@ -36,21 +36,15 @@ public class StudentService {
     @RolesAllowed("developer")
     public boolean addStudent(@WebParam(name = "name") @XmlElement(required = true) String name,
                               @WebParam(name = "surname") @XmlElement(required = true) String surname,
-                              @WebParam(name = "stidentId") @XmlElement(required = true) Integer studentId) {
+                              @WebParam(name = "stidentId") @XmlElement(required = true) int studentId) {
 
-        List<Student> students = studentContainer.getStudentsInstance();
-
-        if (students.stream().anyMatch(s -> s.getStudentId() == studentId))
-            return false;
-
-        students.add(new Student(name, surname, studentId));
-        return true;
+        return studentContainer.addStudent(new Student(name, surname, studentId));
     }
 
     @WebMethod
     @WebResult(name = "isSuccess")
     @RolesAllowed("developer")
-    public boolean removeStudent(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
+    public boolean removeStudent(@WebParam(name = "studentId") @XmlElement(required = true) int studentId) {
         List<Student> students = studentContainer.getStudentsInstance();
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
@@ -69,52 +63,11 @@ public class StudentService {
     @WebMethod
     @WebResult(name = "isSuccess")
     @PermitAll
-    public boolean addSubject(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId,
+    public boolean addSubject(@WebParam(name = "studentId") @XmlElement(required = true) int studentId,
                               @WebParam(name = "subjectName") @XmlElement(required = true) String subjectName,
-                              @WebParam(name = "ects") @XmlElement(required = true) Integer ects) {
+                              @WebParam(name = "ects") @XmlElement(required = true) int ects) {
 
-        List<Student> students = studentContainer.getStudentsInstance();
-        List<Subject> subjects = studentContainer.getSubjectsInstance();
-
-        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
-            return false;
-
-        if (subjects.stream().noneMatch(s -> s.name.equals(subjectName) && s.ECTS.equals(ects)))
-            subjects.add(new Subject(subjects.size() + 1, subjectName, ects));
-
-        Subject subject = subjects.stream()
-                .filter(s -> s.name.equals(subjectName) && s.ECTS.equals(ects))
-                .findFirst()
-                .get();
-
-        students.stream()
-                .filter(s -> s.getStudentId() == studentId)
-                .findFirst()
-                .orElse(null)
-                .addSubject(subject);
-
-        return true;
-    }
-
-    @WebMethod
-    @WebResult(name = "subjects")
-    @PermitAll
-    public List<Subject> getSubjects() {
-        return studentContainer.getSubjectsInstance();
-    }
-
-
-    @WebMethod
-    @WebResult(name = "students")
-    @PermitAll
-    public List<Student> filterBySubject(@WebParam(name = "subjectId") @XmlElement(required = true) Integer subjectId) {
-
-        List<Student> students = studentContainer.getStudentsInstance();
-
-        return students.stream()
-                .filter(s -> s.getSubjects().stream()
-                        .anyMatch(sub -> sub.subjectId.equals(subjectId)))
-                .collect(Collectors.toList());
+        return studentContainer.addSubject(studentId, new Subject(subjectName, ects));
     }
 
     @WebMethod
@@ -140,18 +93,14 @@ public class StudentService {
     @WebMethod
     @WebResult(name = "student")
     @PermitAll
-    public Student findByid(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
-        List<Student> students = studentContainer.getStudentsInstance();
-        return students.stream()
-                .filter(s -> s.getStudentId() == studentId)
-                .findFirst()
-                .orElse(null);
+    public Student findByid(@WebParam(name = "studentId") @XmlElement(required = true) int studentId) {
+        return studentContainer.findStudentByid(studentId);
     }
 
     @WebMethod
     @WebResult(name = "isSuccess")
     @PermitAll
-    public boolean uploadAvatar(@WebParam(name = "path") @XmlElement(required = true) String path, @WebParam(name = "studentId") Integer studentId) {
+    public boolean uploadAvatar(@WebParam(name = "path") @XmlElement(required = true) String path, @WebParam(name = "studentId") int studentId) {
         List<Student> students = studentContainer.getStudentsInstance();
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return false;
@@ -178,7 +127,7 @@ public class StudentService {
     @WebMethod
     @WebResult(name = "destination-filepath")
     @PermitAll
-    public String downloadAvatar(@WebParam(name = "studentId") @XmlElement(required = true) Integer studentId) {
+    public String downloadAvatar(@WebParam(name = "studentId") @XmlElement(required = true) int studentId) {
         List<Student> students = studentContainer.getStudentsInstance();
         if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
             return "Unknown studentId";
@@ -189,7 +138,7 @@ public class StudentService {
                 .orElse(null)
                 .getAvatar();
 
-        String destinationFilepath = "/home/magda/students/avatars/student" + studentId.toString() + ".jpg";
+        String destinationFilepath = "/home/magda/students/avatars/student" + studentId + ".jpg";
         try (FileOutputStream imageOutFile = new FileOutputStream(destinationFilepath)) {
             byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
             imageOutFile.write(imageByteArray);
@@ -199,10 +148,5 @@ public class StudentService {
         return destinationFilepath;
     }
 
-    @WebMethod
-    @PermitAll
-    public void erase(){
-        studentContainer.getStudentsInstance().clear();
-        studentContainer.getSubjectsInstance().clear();
-    }
+
 }

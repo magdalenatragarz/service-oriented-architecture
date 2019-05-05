@@ -1,8 +1,5 @@
 package pl.edu.agh.soa;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,59 +8,62 @@ import java.util.List;
 @XmlType(name = "student")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
-    public String name;
-    public String surname;
-    public Integer studentId;
-    public String avatar;
+
+    private String name;
+    private String surname;
+    private Integer studentId;
+    private String avatar;
+
     @XmlElementWrapper
     @XmlElement(name = "subject")
-    public List<Subject> subjects;
+    private List<Subject> subjects;
 
-    public Student() {}
+    public Student() {
+        this.subjects = new ArrayList<>();
+    }
 
 
-    @JsonCreator
-    public Student(
-            @JsonProperty("name") String name,
-            @JsonProperty("surname") String surname,
-            @JsonProperty("studentId") Integer studentId) {
+    public Student(String name, String surname, int studentId) {
         this.name = name;
         this.surname = surname;
         this.studentId = studentId;
         this.subjects = new ArrayList<>();
     }
 
-
     public String getName() {
         return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public List<Subject> getSubjects() {
-        return subjects;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    public void setStudentId(Integer studentId) {
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
     public void setSubjects(List<Subject> subjects) {
@@ -73,10 +73,4 @@ public class Student {
     public void addSubject(Subject subject) {
         subjects.add(subject);
     }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-
 }

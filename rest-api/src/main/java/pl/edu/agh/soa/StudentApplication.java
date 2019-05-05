@@ -12,7 +12,8 @@ public class StudentApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<>();
-        s.add(StudentRestService.class);
+        s.add(StudentResource.class);
+        s.add(SubjectResource.class);
         return s;
     }
 }
