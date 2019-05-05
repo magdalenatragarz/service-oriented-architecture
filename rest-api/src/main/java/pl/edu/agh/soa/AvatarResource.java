@@ -5,12 +5,14 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import io.jsonwebtoken.Jwts;
 
 @Path("avatar")
 public class AvatarResource {
 
     @Inject
     StudentContainer studentContainer;
+
 
     @POST
     @Path("/{id}")
@@ -20,6 +22,7 @@ public class AvatarResource {
            return Response.status(Response.Status.CREATED).build();
        return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
+
 
     @GET
     @Path("/{id}")

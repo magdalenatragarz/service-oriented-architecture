@@ -25,6 +25,7 @@ public class StudentResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
+
     public Response addStudent(@Valid Student student) {
         if (studentContainer.addStudent(student))
             return Response.status(Response.Status.CREATED).build();

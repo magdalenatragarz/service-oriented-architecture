@@ -15,6 +15,7 @@ public class StudentApplication extends Application {
         s.add(StudentResource.class);
         s.add(SubjectResource.class);
         s.add(AvatarResource.class);
+        s.add(AuthenticationEndpoint.class);
         return s;
     }
 }
