@@ -49,6 +49,14 @@ public class StudentResource {
         return Response.status(400).build();
     }
 
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeStudent(@PathParam("id") int id) {
+        if (studentContainer.removeStudent(id))
+            return Response.status(200).build();
+        return Response.status(400).build();
+    }
 
 }
 

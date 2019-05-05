@@ -45,11 +45,7 @@ public class StudentService {
     @WebResult(name = "isSuccess")
     @RolesAllowed("developer")
     public boolean removeStudent(@WebParam(name = "studentId") @XmlElement(required = true) int studentId) {
-        List<Student> students = studentContainer.getStudentsInstance();
-        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
-            return false;
-        students.removeIf(s -> s.getStudentId() == studentId);
-        return true;
+        return studentContainer.removeStudent(studentId);
     }
 
 
@@ -101,51 +97,17 @@ public class StudentService {
     @WebResult(name = "isSuccess")
     @PermitAll
     public boolean uploadAvatar(@WebParam(name = "path") @XmlElement(required = true) String path, @WebParam(name = "studentId") int studentId) {
-        List<Student> students = studentContainer.getStudentsInstance();
-        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
-            return false;
-
-        String base64Image = "";
-        File file = new File(path);
-        try (FileInputStream imageInFile = new FileInputStream(file)) {
-            byte[] imageData = new byte[(int) file.length()];
-            imageInFile.read(imageData);
-            base64Image = Base64.getEncoder().encodeToString(imageData);
-        } catch (Exception e) {
-            return false;
-        }
-
-        students.stream()
-                .filter(s -> s.getStudentId() == studentId)
-                .findFirst()
-                .orElse(null)
-                .setAvatar(base64Image);
-        return true;
+        Avatar avatar = new Avatar(path);
+        avatar.encode();
+        return studentContainer.uploadAvatar(studentId,avatar);
     }
 
 
     @WebMethod
-    @WebResult(name = "destination-filepath")
+    @WebResult(name = "isSuccess")
     @PermitAll
-    public String downloadAvatar(@WebParam(name = "studentId") @XmlElement(required = true) int studentId) {
-        List<Student> students = studentContainer.getStudentsInstance();
-        if (students.stream().noneMatch(s -> s.getStudentId() == studentId))
-            return "Unknown studentId";
-
-        String base64Image = students.stream()
-                .filter(s -> s.getStudentId() == studentId)
-                .findFirst()
-                .orElse(null)
-                .getAvatar();
-
-        String destinationFilepath = "/home/magda/students/avatars/student" + studentId + ".jpg";
-        try (FileOutputStream imageOutFile = new FileOutputStream(destinationFilepath)) {
-            byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
-            imageOutFile.write(imageByteArray);
-        } catch (Exception e) {
-            return "Unable to save file";
-        }
-        return destinationFilepath;
+    public boolean downloadAvatar(@WebParam(name = "studentId") @XmlElement(required = true) int studentId) {
+        return studentContainer.downloadAvatar(studentId);
     }
 
 

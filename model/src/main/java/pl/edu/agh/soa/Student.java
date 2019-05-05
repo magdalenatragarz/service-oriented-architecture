@@ -1,5 +1,8 @@
 package pl.edu.agh.soa;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +12,18 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
 
+    @NotNull
     private String name;
+
+    @NotNull
     private String surname;
+
+    @NotNull
+    @Min(100000)
+    @Max(999999)
     private Integer studentId;
-    private String avatar;
+
+    private Avatar avatar;
 
     @XmlElementWrapper
     @XmlElement(name = "subject")
@@ -54,13 +65,14 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getAvatar() {
+    public Avatar getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
+
 
     public List<Subject> getSubjects() {
         return subjects;

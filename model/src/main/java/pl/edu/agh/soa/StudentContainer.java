@@ -2,6 +2,7 @@ package pl.edu.agh.soa;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,20 +10,14 @@ import java.util.List;
 public class StudentContainer {
 
     List<Student> students;
-    List<Subject> subjects;
 
     @PostConstruct
     public void init() {
         students = new ArrayList<>();
-        //subjects = new ArrayList<>();
     }
 
     public List<Student> getStudentsInstance() {
         return students;
-    }
-
-    public List<Subject> getSubjectsInstance() {
-        return subjects;
     }
 
 
@@ -59,10 +54,36 @@ public class StudentContainer {
             student.setSurname(updatedStudent.getSurname());
             student.setAvatar(updatedStudent.getAvatar());
 
-            
             return true;
         }
         return false;
+    }
+
+    public boolean removeStudent(Integer studentId) {
+        if (!exists(studentId))
+            return false;
+        students.removeIf(s -> s.getStudentId() == studentId);
+        return true;
+    }
+
+    public boolean uploadAvatar(Integer studentId, Avatar avatar){
+        if (!exists(studentId))
+            return false;
+        avatar.encode();
+        findStudentByid(studentId).setAvatar(avatar);
+        return true;
+    }
+
+    public boolean downloadAvatar(Integer studentId){
+        if (!exists(studentId))
+            return false;
+        String destinationPath = System.getProperty("user.home")+"/student"+studentId+".jpg";
+        try(FileOutputStream imageOutFile = new FileOutputStream(destinationPath)) {
+            imageOutFile.write(findStudentByid(studentId).getAvatar().decode());
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
     private boolean exists(Student student) {

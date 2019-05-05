@@ -14,6 +14,7 @@ public class StudentApplication extends Application {
         Set<Class<?>> s = new HashSet<>();
         s.add(StudentResource.class);
         s.add(SubjectResource.class);
+        s.add(AvatarResource.class);
         return s;
     }
 }

@@ -1,5 +1,7 @@
 package pl.edu.agh.soa;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +16,8 @@ public class Subject {
     private String name;
 
     @NotNull
+    @Min(1)
+    @Max(30)
     private int ECTS;
 
 
