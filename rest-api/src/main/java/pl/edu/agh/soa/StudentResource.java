@@ -1,5 +1,7 @@
 package pl.edu.agh.soa;
 
+import auth.Secured;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -22,10 +24,11 @@ public class StudentResource {
         return studentContainer.getStudentsInstance();
     }
 
+
     @POST
+    @Secured
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-
     public Response addStudent(@Valid Student student) {
         if (studentContainer.addStudent(student))
             return Response.status(Response.Status.CREATED).build();
@@ -42,6 +45,7 @@ public class StudentResource {
 
 
     @PUT
+    @Secured
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateStudent(@PathParam("id") int id, @Valid Student updatedStudent) {
@@ -50,7 +54,9 @@ public class StudentResource {
         return Response.status(Response.Status.BAD_REQUEST).entity("Student doesn't exist").build();
     }
 
+
     @DELETE
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeStudent(@PathParam("id") int id) {

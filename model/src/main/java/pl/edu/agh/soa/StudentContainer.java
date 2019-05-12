@@ -53,7 +53,9 @@ public class StudentContainer {
             student.setName(updatedStudent.getName());
             student.setSurname(updatedStudent.getSurname());
             student.setAvatar(updatedStudent.getAvatar());
-            student.getAvatar().encode();
+            if (student.getAvatar()!= null){
+                student.getAvatar().encode();
+            }
 
             return true;
         }

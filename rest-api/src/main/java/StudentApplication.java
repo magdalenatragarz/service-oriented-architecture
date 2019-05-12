@@ -1,4 +1,8 @@
-package pl.edu.agh.soa;
+import auth.AuthenticationFilter;
+import pl.edu.agh.soa.AuthenticationResource;
+import pl.edu.agh.soa.AvatarResource;
+import pl.edu.agh.soa.StudentResource;
+import pl.edu.agh.soa.SubjectResource;
 
 import javax.ws.rs.core.Application;
 
@@ -15,7 +19,8 @@ public class StudentApplication extends Application {
         s.add(StudentResource.class);
         s.add(SubjectResource.class);
         s.add(AvatarResource.class);
-        s.add(AuthenticationEndpoint.class);
+        s.add(AuthenticationResource.class);
+        s.add(AuthenticationFilter.class);
         return s;
     }
 }

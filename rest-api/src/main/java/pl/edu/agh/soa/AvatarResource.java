@@ -5,16 +5,19 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import auth.Secured;
 import io.jsonwebtoken.Jwts;
 
 @Path("avatar")
 public class AvatarResource {
 
     @Inject
-    StudentContainer studentContainer;
+    private StudentContainer studentContainer;
 
 
     @POST
+    @Secured
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response uploadAvatar(@PathParam("id") Integer id, @Valid Avatar avatar) {

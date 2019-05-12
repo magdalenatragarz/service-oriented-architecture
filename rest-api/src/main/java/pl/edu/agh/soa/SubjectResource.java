@@ -1,5 +1,7 @@
 package pl.edu.agh.soa;
 
+import auth.Secured;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -13,9 +15,10 @@ import javax.ws.rs.core.Response;
 public class SubjectResource {
 
     @Inject
-    StudentContainer studentContainer;
+    private StudentContainer studentContainer;
 
     @POST
+    @Secured
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addSubject(@PathParam("id") Integer id, @Valid Subject subject) {

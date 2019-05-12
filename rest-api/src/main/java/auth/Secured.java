@@ -1,4 +1,4 @@
-package pl.edu.agh.soa;
+package auth;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.ElementType;
