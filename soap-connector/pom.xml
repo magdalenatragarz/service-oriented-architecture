@@ -4,7 +4,6 @@
     Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
-
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -25,10 +24,10 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>soap-connector</artifactId>
+    <artifactId>rest-connector</artifactId>
     <packaging>ejb</packaging>
 
-    <name>soap: EJB Module</name>
+    <name>lab: EJB Module</name>
 
     <url>http://wildfly.org</url>
     <licenses>
@@ -41,7 +40,7 @@
 
     <dependencies>
 
-        <!-- Declare the APIs we depend on and need for compilation. All of 
+        <!-- Declare the APIs we depend on and need for compilation. All of
             them are provided by JBoss WildFly -->
 
         <!-- Import the EJB API, we use provided scope as the API is included in JBoss WildFly -->
@@ -74,6 +73,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>pl.edu.agh.soa</groupId>
+            <artifactId>lab-web</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
 
         <!-- Test scope dependencies -->
         <dependency>
@@ -83,42 +89,40 @@
         </dependency>
 
         <!-- Optional, but highly recommended -->
-        <!-- Arquillian allows you to test enterprise code such as EJBs and 
+        <!-- Arquillian allows you to test enterprise code such as EJBs and
             Transactional(JTA) JPA from JUnit/TestNG -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
-      
+
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
-            <scope>test</scope>               
+            <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>jboss</groupId>
-            <artifactId>jboss-annotations-ejb3</artifactId>
-            <version>4.2.2.GA</version>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>3.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.0.1.Final</version>
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.ws</groupId>
-            <artifactId>jbossws-api</artifactId>
-            <version>1.1.2.Final</version>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>2.3.4.Final</version>
         </dependency>
-
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
+            <groupId>pl.edu.agh.soa</groupId>
+            <artifactId>soap-api</artifactId>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>
@@ -134,14 +138,22 @@
                     <ejbVersion>3.1</ejbVersion>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <!-- The default profile skips all tests, though you can tune it 
+            <!-- The default profile skips all tests, though you can tune it
                 to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including 
+            <!-- Seperate profiles are provided for running all tests, including
                 Arquillian tests that execute in the specified container -->
             <id>default</id>
             <activation>
@@ -161,7 +173,7 @@
         </profile>
 
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests 
+            <!-- An optional Arquillian testing profile that executes tests
                 in your WildFly instance -->
             <!-- This profile will start a new WildFly instance, and execute
                 the test, shutting it down when done -->
@@ -177,7 +189,7 @@
         </profile>
 
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests 
+            <!-- An optional Arquillian testing profile that executes tests
                 in a remote WildFly instance -->
             <!-- Run with: mvn clean test -Parq-wildfly-remote -->
             <id>arq-wildfly-remote</id>
@@ -193,3 +205,201 @@
     </profiles>
 
 </project>
+
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--&lt;!&ndash;-->
+    <!--JBoss, Home of Professional Open Source-->
+    <!--Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual-->
+    <!--contributors by the @authors tag. See the copyright.txt in the-->
+    <!--distribution for a full listing of individual contributors.-->
+
+    <!--Licensed under the Apache License, Version 2.0 (the "License");-->
+    <!--you may not use this file except in compliance with the License.-->
+    <!--You may obtain a copy of the License at-->
+    <!--http://www.apache.org/licenses/LICENSE-2.0-->
+    <!--Unless required by applicable law or agreed to in writing, software-->
+    <!--distributed under the License is distributed on an "AS IS" BASIS,-->
+    <!--WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.-->
+    <!--See the License for the specific language governing permissions and-->
+    <!--limitations under the License.-->
+<!--&ndash;&gt;-->
+<!--<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+         <!--xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">-->
+    <!--<modelVersion>4.0.0</modelVersion>-->
+
+    <!--<parent>-->
+        <!--<artifactId>soap</artifactId>-->
+        <!--<groupId>pl.edu.agh.soa</groupId>-->
+        <!--<version>1.0</version>-->
+    <!--</parent>-->
+
+    <!--<artifactId>soap-connector</artifactId>-->
+    <!--<packaging>ejb</packaging>-->
+
+    <!--<name>soap: EJB Module</name>-->
+
+    <!--<url>http://wildfly.org</url>-->
+    <!--<licenses>-->
+        <!--<license>-->
+            <!--<name>Apache License, Version 2.0</name>-->
+            <!--<distribution>repo</distribution>-->
+            <!--<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>-->
+        <!--</license>-->
+    <!--</licenses>-->
+
+    <!--<dependencies>-->
+
+        <!--&lt;!&ndash; Declare the APIs we depend on and need for compilation. All of -->
+            <!--them are provided by JBoss WildFly &ndash;&gt;-->
+
+        <!--&lt;!&ndash; Import the EJB API, we use provided scope as the API is included in JBoss WildFly &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.spec.javax.ejb</groupId>-->
+            <!--<artifactId>jboss-ejb-api_3.2_spec</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; Import the CDI API, we use provided scope as the API is included in JBoss WildFly &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>javax.enterprise</groupId>-->
+            <!--<artifactId>cdi-api</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; Import the JPA API, we use provided scope as the API is included in JBoss WildFly &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate.javax.persistence</groupId>-->
+            <!--<artifactId>hibernate-jpa-2.1-api</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; JSR-303 (Bean Validation) Implementation &ndash;&gt;-->
+        <!--&lt;!&ndash; Provides portable constraints such as @Email &ndash;&gt;-->
+        <!--&lt;!&ndash; Hibernate Validator is shipped in JBoss WildFly &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-validator</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+
+        <!--&lt;!&ndash; Test scope dependencies &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; Optional, but highly recommended &ndash;&gt;-->
+        <!--&lt;!&ndash; Arquillian allows you to test enterprise code such as EJBs and -->
+            <!--Transactional(JTA) JPA from JUnit/TestNG &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.junit</groupId>-->
+            <!--<artifactId>arquillian-junit-container</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+      <!---->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.protocol</groupId>-->
+            <!--<artifactId>arquillian-protocol-servlet</artifactId>-->
+            <!--<scope>test</scope>               -->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>jboss</groupId>-->
+            <!--<artifactId>jboss-annotations-ejb3</artifactId>-->
+            <!--<version>4.2.2.GA</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.ws</groupId>-->
+            <!--<artifactId>jbossws-api</artifactId>-->
+            <!--<version>1.1.2.Final</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>javax.annotation</groupId>-->
+            <!--<artifactId>javax.annotation-api</artifactId>-->
+            <!--<version>1.3.2</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>commons-io</groupId>-->
+            <!--<artifactId>commons-io</artifactId>-->
+            <!--<version>2.6</version>-->
+        <!--</dependency>-->
+
+    <!--</dependencies>-->
+
+    <!--<build>-->
+        <!--<finalName>${project.artifactId}</finalName>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<artifactId>maven-ejb-plugin</artifactId>-->
+                <!--<version>${version.ejb.plugin}</version>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash; Tell Maven we are using EJB 3.1 &ndash;&gt;-->
+                    <!--<ejbVersion>3.1</ejbVersion>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--&lt;!&ndash; The default profile skips all tests, though you can tune it -->
+                <!--to run just unit tests based on a custom pattern &ndash;&gt;-->
+            <!--&lt;!&ndash; Seperate profiles are provided for running all tests, including -->
+                <!--Arquillian tests that execute in the specified container &ndash;&gt;-->
+            <!--<id>default</id>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+            <!--</activation>-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                        <!--<version>${version.surefire.plugin}</version>-->
+                        <!--<configuration>-->
+                            <!--<skip>true</skip>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+
+        <!--<profile>-->
+            <!--&lt;!&ndash; An optional Arquillian testing profile that executes tests -->
+                <!--in your WildFly instance &ndash;&gt;-->
+            <!--&lt;!&ndash; This profile will start a new WildFly instance, and execute-->
+                <!--the test, shutting it down when done &ndash;&gt;-->
+            <!--&lt;!&ndash; Run with: mvn clean test -Parq-wildfly-managed &ndash;&gt;-->
+            <!--<id>arq-wildfly-managed</id>-->
+            <!--<dependencies>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly</groupId>-->
+                    <!--<artifactId>wildfly-arquillian-container-managed</artifactId>-->
+                    <!--<scope>test</scope>-->
+                <!--</dependency>-->
+            <!--</dependencies>-->
+        <!--</profile>-->
+
+        <!--<profile>-->
+            <!--&lt;!&ndash; An optional Arquillian testing profile that executes tests -->
+                <!--in a remote WildFly instance &ndash;&gt;-->
+            <!--&lt;!&ndash; Run with: mvn clean test -Parq-wildfly-remote &ndash;&gt;-->
+            <!--<id>arq-wildfly-remote</id>-->
+            <!--<dependencies>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly</groupId>-->
+                    <!--<artifactId>wildfly-arquillian-container-remote</artifactId>-->
+                    <!--<scope>test</scope>-->
+                <!--</dependency>-->
+            <!--</dependencies>-->
+        <!--</profile>-->
+
+    <!--</profiles>-->
+
+<!--</project>-->
+
+
