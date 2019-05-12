@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @DeclareRoles({"developer", "admin"})
 @WebContext(authMethod = "BASIC", transportGuarantee = "NONE")
 @SecurityDomain("soap_lab1")
-public class StudentService {
+public class StudentSoap {
 
     @Inject
     StudentContainer studentContainer;

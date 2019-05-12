@@ -35,7 +35,6 @@
     <modules>
         <module>soap-api</module>
         <module>rest-api</module>
-	    <module>soap-connector</module>
         <module>soap-ear</module>
         <module>model</module>
     </modules>
@@ -80,13 +79,6 @@
                 <type>ejb</type>
             </dependency>
 
-
-	    	<dependency>
-                <groupId>pl.edu.agh.soa</groupId>
-                <artifactId>soap-connector</artifactId>
-                <version>${project.version}</version>
-                <type>ejb</type>
-            </dependency>
             
             <!-- Define the version of the WAR so that we don't need to repeat 
                 ourselves in every module -->
