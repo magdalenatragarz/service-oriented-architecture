@@ -3,10 +3,12 @@ package pl.edu.agh.soa;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.util.Base64;
 
 
-public class Avatar {
+public class Avatar  {
 
     @NotNull
     private String path;
@@ -50,4 +52,21 @@ public class Avatar {
         return Base64.getDecoder().decode(base64);
     }
 
+    public boolean save(){
+        String destinationPath = System.getProperty("user.home")+"/student_out.jpg";
+        try(FileOutputStream imageOutFile = new FileOutputStream(destinationPath)) {
+            imageOutFile.write(decode());
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "path='" + path + '\'' +
+                ", base64='" + base64 + '\'' +
+                '}';
+    }
 }

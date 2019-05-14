@@ -37,6 +37,7 @@
         <module>rest-api</module>
         <module>soap-ear</module>
         <module>model</module>
+	    <module>rest-connector</module>
     </modules>
 
     <properties>
@@ -114,34 +115,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxrs</artifactId>
-                <version>3.0.13 Final</version>
-                <scope>provided</scope>
-            </dependency>
-
-
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-client</artifactId>
-                <version>3.0.1.Final</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxb-provider</artifactId>
-                <version>3.0.13 Final</version>
-                <scope>provided</scope>
-            </dependency>
-
-
-
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jackson2-provider</artifactId>
-                <version>${version.resteasy}</version>
-            </dependency>
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>

@@ -80,7 +80,6 @@
         </dependency>
 
 
-
         <!-- Test scope dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -103,22 +102,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>3.0.1.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <version>3.0.1.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson-provider</artifactId>
-            <version>2.3.4.Final</version>
-        </dependency>
         <dependency>
             <groupId>pl.edu.agh.soa</groupId>
             <artifactId>soap-api</artifactId>

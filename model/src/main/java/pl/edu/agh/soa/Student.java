@@ -4,13 +4,11 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@XmlType(name = "student")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Student {
+public class Student{
 
     @NotNull
     private String name;
@@ -25,8 +23,6 @@ public class Student {
 
     private Avatar avatar;
 
-    @XmlElementWrapper
-    @XmlElement(name = "subject")
     private List<Subject> subjects;
 
     public Student() {
@@ -84,5 +80,16 @@ public class Student {
 
     public void addSubject(Subject subject) {
         subjects.add(subject);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", studentId=" + studentId +
+                ", avatar=" + avatar +
+                ", subjects=" + subjects +
+                '}';
     }
 }

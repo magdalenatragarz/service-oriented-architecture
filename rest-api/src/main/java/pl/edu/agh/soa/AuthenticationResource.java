@@ -41,7 +41,7 @@ public class AuthenticationResource {
     }
 
     private String issueToken(String username) {
-        return Jwts.builder()
+        return "Bearer " + Jwts.builder()
                 .setSubject(username)
                 .setExpiration(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(KeyGenerator.generateKey())

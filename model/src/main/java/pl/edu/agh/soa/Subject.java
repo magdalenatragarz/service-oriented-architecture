@@ -6,10 +6,9 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
-@XmlType(name = "subject")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Subject {
 
     @NotNull
@@ -39,6 +38,14 @@ public class Subject {
 
     public int getECTS() {
         return ECTS;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "name='" + name + '\'' +
+                ", ECTS=" + ECTS +
+                '}';
     }
 
     public void setECTS(int ECTS) {

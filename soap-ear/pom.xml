@@ -47,6 +47,7 @@
             <artifactId>rest-api</artifactId>
             <type>war</type>
         </dependency>
+
         <dependency>
             <groupId>pl.edu.agh.soa</groupId>
             <artifactId>soap-api</artifactId>
