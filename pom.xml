@@ -36,7 +36,9 @@
         <module>soap-api</module>
         <module>rest-api</module>
         <module>soap-ear</module>
-        <module>model</module>
+        <module>model</module>	
+	    <module>dao</module>
+	    <module>jpa</module>
 	    <module>rest-connector</module>
     </modules>
 
