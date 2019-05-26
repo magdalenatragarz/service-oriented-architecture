@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Base64;
 
 
-public class Avatar  {
+public class Avatar {
 
     @NotNull
     private String path;

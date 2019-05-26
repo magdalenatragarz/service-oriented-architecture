@@ -124,7 +124,7 @@
         </dependency>
         <dependency>
             <groupId>pl.edu.agh.soa</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>jpa</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>

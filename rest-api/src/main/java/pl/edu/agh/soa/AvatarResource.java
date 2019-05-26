@@ -7,7 +7,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import auth.Secured;
-import io.jsonwebtoken.Jwts;
 
 @Path("avatar")
 public class AvatarResource {
