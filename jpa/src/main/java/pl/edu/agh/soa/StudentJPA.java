@@ -30,4 +30,54 @@ public class StudentJPA {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubjectJPA> subjects = new ArrayList<>();
 
+    public StudentJPA() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getStudentId() {
+        return studentId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public AvatarJPA getAvatar() {
+        return avatar;
+    }
+
+    public List<SubjectJPA> getSubjects() {
+        return subjects;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setAvatar(AvatarJPA avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setSubjects(List<SubjectJPA> subjects) {
+        this.subjects = subjects;
+    }
 }

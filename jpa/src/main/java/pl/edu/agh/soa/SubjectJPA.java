@@ -18,4 +18,30 @@ public class SubjectJPA {
     @Column(name = "name")
     private String name;
 
+    public SubjectJPA() {
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public void setEcts(Integer ects) {
+        this.ects = ects;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public Integer getEcts() {
+        return ects;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
